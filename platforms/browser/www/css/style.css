@@ -91,7 +91,7 @@ body{
 	line-height: 55px;
 }
 .nav a.active{
-	border-top: 3px solid #FFBF00;
+	border-top: 3px solid #FFD10F;
     transition-duration: 2s;
     -webkit-transition-duration: 2s;
     -o-transition-duration: 2s;
@@ -114,21 +114,59 @@ body{
 \*------------------------------*/
 
 .cell{
-	margin: 10px 0px;
-	border: 1px solid #F00;
-	padding:4px;
-	min-height: 100px;
+    margin-top: 10px;
+    padding: 0px 0px 10px 0px;
+    min-height: 120px;
+    position: relative;
+    border-bottom: 1px solid #888;
+}
+.cell i.favorite{
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 30px;
+    color:#888;
 }
 .cell .poster {
     display: inline-block;
     float: left;
-    width: 20%;
-    height: 100px;
+    height: 120px;
 }
 .cell .poster img{
 	height:100%;
 }
 .cell .infos {
     display: inline-block;
-    width: 80%;
+    padding-left:15px;
+    padding-top:5px;
+    width: 70%;
 }
+.cell .infos .title{
+	font-weight: bold;
+	font-size: 16px;
+	margin-right: 0px;
+}
+.cell .infos .author{
+	font-size: 14px;
+	color: #888;
+}
+.cell .infos .other .saw{
+	margin-top: 15px;
+	width: 70px;
+    text-align: center;
+    border-radius: 4px;
+    background-color: #45BF55;
+    /*background-color: #D40D12;*/
+    display: inline-block;
+}
+.cell .infos .other i{
+	font-size: 28px;
+	color: #FFF;
+}
+.cell .infos .other .rate{
+	display: inline-block;
+	font-size: 20px;
+	float: right;
+	font-weight: bold;
+	margin-top: 15px;
+} 
