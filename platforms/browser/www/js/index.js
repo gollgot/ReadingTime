@@ -16,6 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+var db = null;
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -28,6 +31,12 @@ var app = {
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
         this.receivedEvent('deviceready');
+        
+        /*db = window.sqlitePlugin.openDatabase({name: 'library.db', location: 'default'});
+        initTable(db);
+        show(db);
+        //populate(db);*/
+
     },
 
     // Update DOM on a Received Event
@@ -44,3 +53,41 @@ var app = {
 };
 
 app.initialize();
+
+function initTable(db){
+    db.transaction(function(tx) {
+        tx.executeSql('CREATE TABLE IF NOT EXISTS books (title, author, poster, favorite, saw, rate)');
+    }, function(error) {
+        alert('Transaction ERROR: ' + error.message);
+    }, function() {
+        alert('Initialisation table Books OK');
+    });
+}
+
+function populate(db){
+    db.transaction(function(tx) {
+        tx.executeSql('INSERT INTO books VALUES (?,?,?,?,?,?)',[
+            'Harry Potter à l\'école des sorciers',
+            'J.K Rowling',
+            'harry_potter_1.jpg',
+            1,
+            0,
+            9
+        ]);
+    }, function(error) {
+        alert('Transaction ERROR: ' + error.message);
+    }, function() {
+        alert('Populated database OK');
+    });
+}
+
+function show(db){
+    db.transaction(function(tx) {
+        tx.executeSql('SELECT *  FROM books', [], function(tx, rs) {
+            alert('name: ' + rs.rows.item(0).title);
+        }, function(tx, error) {
+            alert('SELECT error: ' + error.message);
+        });
+    });
+}
+

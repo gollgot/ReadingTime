@@ -12,6 +12,9 @@
         },
         "cordova-plugin-browsersync": {
             "PACKAGE_NAME": "io.cordova.hellocordova"
+        },
+        "cordova-sqlite-storage": {
+            "PACKAGE_NAME": "ch.cpnv.reading_time"
         }
     },
     "dependent_plugins": {}
