@@ -32,10 +32,13 @@ var app = {
     onDeviceReady: function() {
         this.receivedEvent('deviceready');
         
-        /*db = window.sqlitePlugin.openDatabase({name: 'library.db', location: 'default'});
-        initTable(db);
-        show(db);
+        db = window.sqlitePlugin.openDatabase({name: 'library.db', location: 'default'});
+        //show(db);
+        /*initTable(db);
+        
         //populate(db);*/
+
+        createBookList(db);
 
     },
 
@@ -83,11 +86,77 @@ function populate(db){
 
 function show(db){
     db.transaction(function(tx) {
-        tx.executeSql('SELECT *  FROM books', [], function(tx, rs) {
-            alert('name: ' + rs.rows.item(0).title);
+        tx.executeSql('SELECT count(title) as count  FROM books', [], function(tx, rs) {
+            alert('name: ' + rs.rows.item(0).count);
         }, function(tx, error) {
             alert('SELECT error: ' + error.message);
         });
     });
 }
 
+function createBookList(db){
+    
+    getNbBooks();
+    
+    // Get ne nb of books we have on the DB
+    function getNbBooks(){
+        db.transaction(function(tx) {
+            tx.executeSql('SELECT count(title) as count  FROM books', [], function(tx, rs) {
+                createList(rs.rows.item(0).count);
+            }, function(tx, error) {
+                alert('SELECT error: ' + error.message);
+            });
+        });
+    }
+    
+    // Create the list
+    function createList(nbElements){
+        db.transaction(function(tx) {
+            tx.executeSql('SELECT * FROM books', [], function(tx, rs) {
+
+                var list = $("#book-list");
+                for (var i = 0; i < nbElements; i++) {
+                    var title = rs.rows.item(i).title;
+                    var author = rs.rows.item(i).author;
+                    var poster = rs.rows.item(i).poster;
+                    var favorite = rs.rows.item(i).favorite;
+                    var saw = rs.rows.item(i).saw;
+                    var rate = rs.rows.item(i).rate;
+                    
+                    var cell = `
+                        <div class="cell">
+                            <i class="favorite fa fa-star" aria-hidden="true"></i>
+                            <div class="poster">
+                                <img src="img/`+poster+`">
+                            </div>
+                            <div class="infos">
+                                <div class="title">`+title+`</div>
+                                <div class="author">`+author+`</div>
+                                <div class="other">
+                                    <div class="saw">
+                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="rate">
+                                        <span class="nb1">`+rate+`</span> / <span class="nb2">10</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                     list.html(cell);
+                     alert("img/"+poster);
+                }
+                $(".panel").append(list);
+                
+
+                
+            }, function(tx, error) {
+                alert('SELECT error: ' + error.message);
+            });
+        });
+        
+        
+        
+    }
+
+}
