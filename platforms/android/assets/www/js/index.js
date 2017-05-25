@@ -33,12 +33,12 @@ var app = {
         this.receivedEvent('deviceready');
         
         db = window.sqlitePlugin.openDatabase({name: 'library.db', location: 'default'});
-        //show(db);
-        /*initTable(db);
-        
-        //populate(db);*/
 
+        initTable(db);
+        //populate(db);
         createBookList(db);
+        //show(db);
+        //populate(db);*/
 
     },
 
@@ -144,7 +144,6 @@ function createBookList(db){
                         </div>
                     `;
                      list.html(cell);
-                     alert("img/"+poster);
                 }
                 $(".panel").append(list);
                 
